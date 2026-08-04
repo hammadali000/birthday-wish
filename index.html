@@ -37,6 +37,7 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             animation: fadeInUp 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             z-index: 10;
+            position: relative;
         }
 
         h1 {
@@ -76,23 +77,42 @@
             color: #d946ef;
         }
 
-        /* Yes Button Styling */
+        /* Buttons Container */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            min-height: 60px;
+            position: relative;
+        }
+
         .btn {
             background: linear-gradient(135deg, #f43f5e, #d946ef);
             color: white;
             border: none;
-            padding: 0.8rem 2.5rem;
+            padding: 0.8rem 2rem;
             font-size: 1.1rem;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
             box-shadow: 0 10px 20px rgba(244, 63, 94, 0.3);
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .btn:hover {
             transform: translateY(-3px) scale(1.05);
             box-shadow: 0 15px 25px rgba(244, 63, 94, 0.5);
+        }
+
+        /* No Button Styling */
+        .btn-no {
+            background: rgba(255, 255, 255, 0.15);
+            color: #e2e8f0;
+            box-shadow: none;
+            position: relative;
+            transition: all 0.15s ease-out;
         }
 
         #celebration_scene {
@@ -161,13 +181,16 @@
     <div class="card" id="card_container">
         
         <div id="wish_request">
-            <h1>✨ Happy Birthday, <span class="highlight">Rida!</span> ✨</h1>
+            <h1>✨ Happy Birthday, <span class="highlight">Aqsa!</span> ✨</h1>
             <p class="message">Wishing you a truly wonderful day ahead. May your year be filled with endless success, joy, and laughter!</p>
             
             <div class="wish-section">
                 <p class="wish-question">So, when are you giving the Birthday Treat? 😏</p>
-                <!-- Only One Button to lock the treat -->
-                <button class="btn" onclick="startCelebration()">Click to Confirm Treat 🍕</button>
+                
+                <div class="btn-group">
+                    <button class="btn" onclick="startCelebration()">Haan zaroor! 🍕</button>
+                    <button class="btn btn-no" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">Kabhi nahi 😜</button>
+                </div>
             </div>
         </div>
 
@@ -182,6 +205,7 @@
     <script>
         const colors = ['#f43f5e', '#ec4899', '#d946ef', '#a855f7', '#6366f1', '#3b82f6'];
 
+        // Create Background Balloons
         for (let i = 0; i < 15; i++) {
             let balloon = document.createElement('div');
             balloon.classList.add('balloon');
@@ -192,6 +216,18 @@
             document.body.appendChild(balloon);
         }
 
+        // Runaway Button Logic
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            
+            // Generate random positions within visible boundary
+            const x = Math.floor(Math.random() * 200) - 100;
+            const y = Math.floor(Math.random() * 150) - 75;
+            
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        // Celebration Logic
         function startCelebration() {
             document.getElementById('wish_request').style.display = 'none';
             document.getElementById('celebration_scene').style.display = 'block';
